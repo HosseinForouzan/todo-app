@@ -9,6 +9,7 @@ type Repository interface {
 	AddTask(ctx context.Context, task entity.Task) (entity.Task, error)
 	GetTaskByID(ctx context.Context, id uint) (entity.Task, error)
 	GetTasks(ctx context.Context) ([]entity.Task, error)
+	UpdateTask(ctx context.Context, task entity.Task) (entity.Task, error)
 }
 
 type Service struct {

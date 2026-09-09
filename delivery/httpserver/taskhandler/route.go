@@ -8,4 +8,5 @@ func (h Handler) SetRoutes(c *gin.Engine) {
 	taskGroup.GET("/", h.GetTasks)
 	taskGroup.POST("/", h.AddTask)
 	taskGroup.GET("/:id", h.GetTaskByID)
+	taskGroup.PUT("/:id", h.UpdateTask)
 }
