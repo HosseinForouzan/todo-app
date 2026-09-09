@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"graph/param"
+	"graph/delivery/httpserver"
 	"graph/repository/psql"
 	"graph/repository/psql/psqltask"
 	"graph/service"
@@ -28,22 +28,10 @@ func main() {
 
 	taskSvc := service.New(psqltaskRepo)
 
-	t, err := taskSvc.AddTask(ctx, param.AddTaskRequest{
-		Title: "salam",
-		Description: "HAJI",
-		Assignee: "Hossein",
-	})
+	fmt.Println(taskSvc)
 
-	if err != nil {
-		fmt.Println(err)
-	}
+	server := httpserver.New(taskSvc)
 
-	fmt.Println(t)
+	server.Serve()
 
-	taskByID, err := taskSvc.GetTaskByID(ctx, param.GetTaskRequest{ID: 1})
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(taskByID)
 }
