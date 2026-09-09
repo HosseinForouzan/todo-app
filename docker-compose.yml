@@ -1,0 +1,26 @@
+services:
+    postgres:
+        image: postgres:16
+        container_name: task
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: myuser
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: task_db
+        ports:
+            - "5431:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+
+    
+
+
+
+ 
+volumes:
+    postgres_data:
+    
+
+
+# docker exec -it url_shorten psql -U myuser -d url_shortening_service
