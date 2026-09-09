@@ -22,6 +22,7 @@ func New(taskSvc service.Service) Server {
 
 func (s Server) Serve() {
 	s.Router.GET("/health-check", s.Healthcheck)
+	s.Handler.SetRoutes(s.Router)
 
 	if err := s.Router.Run(); err != nil {
 		log.Fatalf("failed to run server: %v", err)
