@@ -39,4 +39,11 @@ func main() {
 	}
 
 	fmt.Println(t)
+
+	taskByID, err := taskSvc.GetTaskByID(ctx, param.GetTaskRequest{ID: 1})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(taskByID)
 }
