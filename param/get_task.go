@@ -1,6 +1,9 @@
 package param
 
-import "time"
+import (
+	"graph/entity"
+	"time"
+)
 
 type GetTaskRequest struct {
 	ID uint `json:"id"`
@@ -14,4 +17,8 @@ type GetTaskResponse struct {
 	Assignee    string `json:"assignee"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+type GetAllTasksResponse struct {
+	Tasks []entity.Task
 }

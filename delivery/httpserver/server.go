@@ -9,7 +9,7 @@ import (
 )
 
 type Server struct {
-	Handler taskhandler.Hadler
+	Handler taskhandler.Handler
 	Router  *gin.Engine
 }
 

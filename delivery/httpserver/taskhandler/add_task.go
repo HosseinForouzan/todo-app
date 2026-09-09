@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h Hadler) AddTask(c *gin.Context) {
+func (h Handler) AddTask(c *gin.Context) {
 	var req param.AddTaskRequest
 
 	err := c.ShouldBindJSON(&req)

@@ -6,6 +6,17 @@ import (
 	"graph/param"
 )
 
+func (s Service) GetTasks(ctx context.Context) (param.GetAllTasksResponse, error){
+	tasks, err := s.repo.GetTasks(ctx)
+	if err != nil {
+		return param.GetAllTasksResponse{}, fmt.Errorf("unexpected error:%w", err)
+	}
+
+	return param.GetAllTasksResponse{
+		Tasks: tasks,
+	},nil
+}
+
 func (s Service) GetTaskByID(ctx context.Context, req param.GetTaskRequest) (param.GetTaskResponse, error) {
 	task, err := s.repo.GetTaskByID(ctx, req.ID)
 	if err != nil {
