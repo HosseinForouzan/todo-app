@@ -39,3 +39,4 @@ func (d *DB) GetTasks(ctx context.Context) ([]entity.Task, error){
 
 	return tasks, nil
 }
+
