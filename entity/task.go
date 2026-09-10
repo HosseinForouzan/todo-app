@@ -22,11 +22,11 @@ func (s TaskStatus) IsValid() bool {
 }
 
 type Task struct {
-    ID          uint
-    Title       string
-    Description string
-    Status      TaskStatus
-    Assignee    string
-    CreatedAt   time.Time
-    UpdatedAt   time.Time
+    ID          uint `json:"id"`
+    Title       string `json:"title"`
+    Description string `json:"description"`
+    Status      TaskStatus `json:"status"`
+    Assignee    string `json:"assignee"`
+    CreatedAt   time.Time `json:"created_at"`
+    UpdatedAt   time.Time `json:"updated_at"`
 }
