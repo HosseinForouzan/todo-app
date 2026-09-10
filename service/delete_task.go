@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"graph/metrics"
 	"graph/param"
 )
 
@@ -15,6 +16,8 @@ func (s Service) DeleteTask(ctx context.Context, req param.DeleteTaskRequest) er
 	if err != nil {
 		return fmt.Errorf("unexpected error:%w", err)
 	}
+
+	metrics.TasksCount.Dec()
 
 	return nil
 }
