@@ -8,6 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UpdateTask godoc
+// @Summary      Update a task
+// @Tags         Tasks
+// @Accept       json
+// @Produce      json
+// @Param        id      path  int                    true "Task ID"
+// @Param        request body  param.UpdateTaskRequest true "Task data"
+// @Success      200 {object} map[string]param.UpdateTaskResponse
+// @Failure      400 {object} map[string]string
+// @Router       /task/{id} [put]
 func (h Handler) UpdateTask(c *gin.Context) {
 	var req param.UpdateTaskRequest
 	err := c.ShouldBindJSON(&req)

@@ -7,8 +7,16 @@ import (
 	"graph/repository/psql"
 	"graph/repository/psql/psqltask"
 	"graph/service"
+
+	_ "graph/docs"
 )
 
+
+// @title           Task Manager API
+// @version         1.0
+// @description     A simple task management microservice
+// @host            localhost:8080
+// @BasePath        /
 func main() {
 
 	config := psql.Config{

@@ -1,0 +1,227 @@
+basePath: /
+definitions:
+  entity.Task:
+    properties:
+      assignee:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        $ref: '#/definitions/entity.TaskStatus'
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  entity.TaskStatus:
+    enum:
+    - todo
+    - in_progress
+    - done
+    type: string
+    x-enum-varnames:
+    - StatusTodo
+    - StatusInProgress
+    - StatusDone
+  param.AddTaskRequest:
+    properties:
+      assignee:
+        type: string
+      description:
+        type: string
+      title:
+        type: string
+    type: object
+  param.AddTaskResponse:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  param.GetAllTasksResponse:
+    properties:
+      tasks:
+        items:
+          $ref: '#/definitions/entity.Task'
+        type: array
+    type: object
+  param.GetTaskResponse:
+    properties:
+      assignee:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  param.UpdateTaskRequest:
+    properties:
+      assignee:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+  param.UpdateTaskResponse:
+    properties:
+      assignee:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: A simple task management microservice
+  title: Task Manager API
+  version: "1.0"
+paths:
+  /task/:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/param.GetAllTasksResponse'
+      summary: Get all tasks
+      tags:
+      - Tasks
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Task data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/param.AddTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/param.AddTaskResponse'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a new task
+      tags:
+      - Tasks
+  /task/{id}:
+    delete:
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a task
+      tags:
+      - Tasks
+    get:
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/param.GetTaskResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get task by ID
+      tags:
+      - Tasks
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Task data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/param.UpdateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/param.UpdateTaskResponse'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a task
+      tags:
+      - Tasks
+swagger: "2.0"

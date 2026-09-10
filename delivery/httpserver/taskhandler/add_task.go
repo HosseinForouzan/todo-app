@@ -7,6 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AddTask godoc
+// @Summary      Add a new task
+// @Tags         Tasks
+// @Accept       json
+// @Produce      json
+// @Param        request body param.AddTaskRequest true "Task data"
+// @Success      201 {object} map[string]param.AddTaskResponse
+// @Failure      400 {object} map[string]string
+// @Router       /task/ [post]
 func (h Handler) AddTask(c *gin.Context) {
 	var req param.AddTaskRequest
 

@@ -8,6 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// DeleteTask godoc
+// @Summary      Delete a task
+// @Tags         Tasks
+// @Produce      json
+// @Param        id path int true "Task ID"
+// @Success      200 {object} map[string]string
+// @Failure      400 {object} map[string]string
+// @Router       /task/{id} [delete]
 func (h Handler) DeleteTask(c *gin.Context) {
 	var req param.DeleteTaskRequest
 	
