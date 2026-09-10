@@ -13,5 +13,8 @@ type UpdateTaskRequest struct {
 type UpdateTaskResponse struct {
 	ID uint `json:"id"`
 	Title     string `json:"title"`
+	Description string `json:"description"`
+	Status string `json:"status"`
+	Assignee string `json:"assignee"`
 	UpdatedAt time.Time `json:"updated_at"`
 }

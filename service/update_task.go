@@ -27,6 +27,9 @@ func (s Service) UpdateTask(ctx context.Context, req param.UpdateTaskRequest)(pa
 	return param.UpdateTaskResponse{
 		ID: updatedTask.ID,
 		Title: updatedTask.Title,
+		Description: updatedTask.Description,
+		Status: string(updatedTask.Status),
+		Assignee: updatedTask.Assignee,
 		UpdatedAt: updatedTask.UpdatedAt,
 	}, nil
 }
