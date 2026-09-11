@@ -23,8 +23,8 @@ func TestDB_DoesTaskExist(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to connect to database: %v", err)
 	}
-	defer conn.Close()
-
+	t.Cleanup(func() {conn.Close()})
+	
 	repo := New(conn)
 
 	createdTask, err := repo.AddTask(ctx, entity.Task{
@@ -35,6 +35,10 @@ func TestDB_DoesTaskExist(t *testing.T) {
 	if err != nil {
 		t.Fatalf("AddTask() error = %v", err)
 	}
+
+	t.Cleanup(func() {
+		repo.DeleteTask(ctx, createdTask.ID)
+	})
 
 
 

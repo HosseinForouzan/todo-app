@@ -23,7 +23,7 @@ func TestDB_UpdateTask(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to connect to database: %v", err)
 	}
-	defer conn.Close()
+	t.Cleanup(func() {conn.Close()})
 
 	repo := New(conn)
 
@@ -35,6 +35,10 @@ func TestDB_UpdateTask(t *testing.T) {
 	if err != nil {
 		t.Fatalf("AddTask() error = %v", err)
 	}
+
+	t.Cleanup(func() {
+		repo.DeleteTask(ctx,createdTask.ID)
+	})
 
 	taskToUpdate := entity.Task{
 		ID:          createdTask.ID,

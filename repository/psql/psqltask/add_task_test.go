@@ -23,9 +23,11 @@ func TestDB_AddTask(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to connect to database: %v", err)
 	}
-	defer conn.Close()
+	t.Cleanup(func() {conn.Close()})
 
 	repo := New(conn)
+
+	
 
 	task := entity.Task{
 		Title:       "Integration Test",
@@ -37,6 +39,10 @@ func TestDB_AddTask(t *testing.T) {
 	if err != nil {
 		t.Fatalf("AddTask() error = %v", err)
 	}
+
+	t.Cleanup(func() {
+		repo.DeleteTask(ctx, got.ID)
+	})
 
 	if got.ID == 0 {
 		t.Fatal("expected task ID to be generated")

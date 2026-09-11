@@ -23,7 +23,7 @@ func TestDB_GetTaskByID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to connect to database: %v", err)
 	}
-	defer conn.Close()
+	t.Cleanup(func() {conn.Close()})
 
 	repo := New(conn)
 
@@ -40,6 +40,10 @@ func TestDB_GetTaskByID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("GetTaskByID() error = %v", err)
 	}
+
+	t.Cleanup(func() {
+		repo.DeleteTask(ctx, got.ID)
+	})
 
 	if got.ID != createdTask.ID {
 		t.Errorf(
@@ -89,7 +93,7 @@ func TestDB_GetTasks(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to connect to database: %v", err)
 	}
-	defer conn.Close()
+	t.Cleanup(func() {conn.Close()})
 
 	repo := New(conn)
 
@@ -112,16 +116,21 @@ func TestDB_GetTasks(t *testing.T) {
 	}
 
 	for _, task := range tasks {
-		_, err := repo.AddTask(ctx, task)
+		createdTask, err := repo.AddTask(ctx, task)
 		if err != nil {
 			t.Fatalf("AddTask() error = %v", err)
 		}
+
+		t.Cleanup(func() {
+			repo.DeleteTask(ctx, createdTask.ID)
+		})
 	}
 
 	got, err := repo.GetTasks(ctx)
 	if err != nil {
 		t.Fatalf("GetTasks() error = %v", err)
 	}
+
 
 	if len(got) < len(tasks) {
 		t.Fatalf(
