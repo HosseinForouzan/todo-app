@@ -40,10 +40,10 @@ graph/
 ├── metrics/                   # Prometheus metric definitions
 ├── param/                     # Request/response DTOs
 ├── repository/
+│   └── psql/migrations/       # SQL migration files
 │   ├── psql/psqltask/         # PostgreSQL repository
 │   └── redis/redistask/       # Redis cache adapter
 ├── service/                   # Business logic layer
-├── migrations/                # SQL migration files (sql-migrate)
 ├── docs/                      # Swagger generated files
 ├── Dockerfile
 ├── docker-compose.yml
@@ -71,12 +71,6 @@ Start dependencies:
 
 ```bash
 docker compose up postgres redis -d
-```
-
-Run database migrations:
-
-```bash
-sql-migrate up
 ```
 
 Start the server:
