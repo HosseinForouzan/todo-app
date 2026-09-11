@@ -27,7 +27,10 @@ func TestHandler_GetTaskByID_Success(t *testing.T) {
 		},
 	}
 
-	svc := service.New(mockRepo, nil)
+	cache := NewMockCache()
+
+
+	svc := service.New(mockRepo, cache)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -72,8 +75,9 @@ func TestHandler_GetTaskByID_Success(t *testing.T) {
 
 func TestHandler_GetTaskByID_InvalidID(t *testing.T) {
 	mockRepo := &mockRepository{}
+	cache := NewMockCache()
 
-	svc := service.New(mockRepo, nil)
+	svc := service.New(mockRepo, cache)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -112,7 +116,8 @@ func TestHandler_GetTaskByID_ServiceError(t *testing.T) {
 		},
 	}
 
-	svc := service.New(mockRepo, nil)
+	cache := NewMockCache()
+	svc := service.New(mockRepo, cache)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)

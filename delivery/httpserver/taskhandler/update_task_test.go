@@ -33,7 +33,8 @@ func TestHandler_UpdateTask_Success(t *testing.T) {
 		},
 	}
 
-	svc := service.New(mockRepo, nil)
+	cache := NewMockCache()
+	svc := service.New(mockRepo, cache)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -68,7 +69,6 @@ func TestHandler_UpdateTask_Success(t *testing.T) {
 		)
 	}
 
-	// بررسی می‌کنیم ID از URL درست وارد Service شده.
 	if capturedTask.ID != 1 {
 		t.Errorf(
 			"expected ID 1, got %d",
@@ -128,7 +128,8 @@ func TestHandler_UpdateTask_Success(t *testing.T) {
 func TestHandler_UpdateTask_InvalidID(t *testing.T) {
 	mockRepo := &mockRepository{}
 
-	svc := service.New(mockRepo,nil)
+	cache := NewMockCache()
+	svc := service.New(mockRepo,cache)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -167,7 +168,9 @@ func TestHandler_UpdateTask_InvalidID(t *testing.T) {
 func TestHandler_UpdateTask_InvalidJSON(t *testing.T) {
 	mockRepo := &mockRepository{}
 
-	svc := service.New(mockRepo, nil)
+
+	cache := NewMockCache()
+	svc := service.New(mockRepo, cache)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -213,7 +216,8 @@ func TestHandler_UpdateTask_ServiceError(t *testing.T) {
 		},
 	}
 
-	svc := service.New(mockRepo, nil)
+	cache := NewMockCache()
+	svc := service.New(mockRepo, cache)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)

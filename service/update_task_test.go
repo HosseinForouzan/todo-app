@@ -65,7 +65,9 @@ func TestService_UpdateTask_Success(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo, nil)
+	cache := NewMockCache()
+
+	svc := New(mockRepo, cache)
 
 	got, err := svc.UpdateTask(context.Background(), req)
 
@@ -122,7 +124,9 @@ func TestService_UpdateTask_RepositoryError(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo, nil)
+	cache := NewMockCache()
+
+	svc := New(mockRepo, cache)
 
 	req := param.UpdateTaskRequest{
 		ID:          10,
@@ -140,5 +144,31 @@ func TestService_UpdateTask_RepositoryError(t *testing.T) {
 
 	if !errors.Is(err, repositoryErr) {
 		t.Errorf("expected repository error, got %v", err)
+	}
+}
+
+
+func TestService_UpdateTask_NilCache(t *testing.T) {
+	mockRepo := &mockRepository{
+		updateTaskFunc: func(ctx context.Context, task entity.Task) (entity.Task, error) {
+			return task, nil
+		},
+	}
+
+	cache := NewMockCache()
+
+	svc := New(mockRepo, cache)
+
+	req := param.UpdateTaskRequest{
+		ID:          1,
+		Title:       "Updated",
+		Description: "Desc",
+		Status:      "done",
+		Assignee:    "Hossein",
+	}
+
+	_, err := svc.UpdateTask(context.Background(), req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
 	}
 }

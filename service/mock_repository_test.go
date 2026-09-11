@@ -10,7 +10,7 @@ import (
 type mockRepository struct {
 	addTaskFunc       func(ctx context.Context, task entity.Task) (entity.Task, error)
 	getTaskByIDFunc   func(ctx context.Context, id uint) (entity.Task, error)
-	getTasksFunc      func(ctx context.Context) ([]entity.Task, int, error)
+	getTasksFunc      func(ctx context.Context, req param.GetTasksRequest) ([]entity.Task, int, error)
 	updateTaskFunc    func(ctx context.Context, task entity.Task) (entity.Task, error)
 	deleteTaskFunc    func(ctx context.Context, id uint) error
 	doesTaskExistFunc func(ctx context.Context, id uint) (bool, error)
@@ -25,7 +25,7 @@ func (m *mockRepository) GetTaskByID(ctx context.Context, id uint) (entity.Task,
 }
 
 func (m *mockRepository) GetTasks(ctx context.Context, req param.GetTasksRequest) ([]entity.Task, int, error) {
-	return m.getTasksFunc(ctx)
+	return m.getTasksFunc(ctx, req)
 }
 
 func (m *mockRepository) UpdateTask(ctx context.Context, task entity.Task) (entity.Task, error) {
@@ -39,6 +39,11 @@ func (m *mockRepository) DeleteTask(ctx context.Context, id uint) error {
 func (m *mockRepository) DoesTaskExist(ctx context.Context, id uint) (bool, error) {
 	return m.doesTaskExistFunc(ctx, id)
 }
+
+
+
+
+
 
 type MockCache struct {
 	tasks map[uint]entity.Task
