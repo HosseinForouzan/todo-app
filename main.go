@@ -12,6 +12,9 @@ import (
 	"graph/service"
 
 	_ "graph/docs"
+
+	   "net/http"
+    _ "net/http/pprof"
 )
 
 // @title           Task Manager API
@@ -53,6 +56,13 @@ func main() {
 	if resp, err := taskSvc.GetTasks(ctx, param.GetTasksRequest{Page: 1, PageSize: 10}); err == nil {
 		metrics.TasksCount.Set(float64(len(resp.Tasks)))
 	}
+
+	go func() {
+    fmt.Println("pprof listening on :6060")
+    if err := http.ListenAndServe(":6060", nil); err != nil {
+        fmt.Println("pprof error:", err)
+    }
+	}()
 
 	server := httpserver.New(taskSvc)
 
