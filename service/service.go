@@ -3,12 +3,13 @@ package service
 import (
 	"context"
 	"graph/entity"
+	"graph/param"
 )
 
 type Repository interface {
 	AddTask(ctx context.Context, task entity.Task) (entity.Task, error)
 	GetTaskByID(ctx context.Context, id uint) (entity.Task, error)
-	GetTasks(ctx context.Context) ([]entity.Task, error)
+	GetTasks(ctx context.Context, req param.GetTasksRequest) ([]entity.Task, int, error)
 	UpdateTask(ctx context.Context, task entity.Task) (entity.Task, error)
 	DeleteTask(ctx context.Context, id uint) error
 	DoesTaskExist(ctx context.Context, id uint) (bool, error)

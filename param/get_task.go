@@ -19,6 +19,18 @@ type GetTaskResponse struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-type GetAllTasksResponse struct {
-	Tasks []entity.Task
+type GetTasksRequest struct {
+	Page     int
+	PageSize int
+	Status   string
+	Assignee string
 }
+
+type GetAllTasksResponse struct {
+	Tasks      []entity.Task `json:"tasks"`
+	Page       int           `json:"page"`
+	PageSize   int           `json:"page_size"`
+	Total      int           `json:"total"`
+	TotalPages int           `json:"total_pages"`
+}
+

@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"graph/entity"
+	"graph/param"
 )
 
 type mockRepository struct {
 	addTaskFunc       func(ctx context.Context, task entity.Task) (entity.Task, error)
 	getTaskByIDFunc   func(ctx context.Context, id uint) (entity.Task, error)
-	getTasksFunc      func(ctx context.Context) ([]entity.Task, error)
+	getTasksFunc      func(ctx context.Context) ([]entity.Task, int, error)
 	updateTaskFunc    func(ctx context.Context, task entity.Task) (entity.Task, error)
 	deleteTaskFunc    func(ctx context.Context, id uint) error
 	doesTaskExistFunc func(ctx context.Context, id uint) (bool, error)
@@ -23,7 +24,7 @@ func (m *mockRepository) GetTaskByID(ctx context.Context, id uint) (entity.Task,
 	return m.getTaskByIDFunc(ctx, id)
 }
 
-func (m *mockRepository) GetTasks(ctx context.Context) ([]entity.Task, error) {
+func (m *mockRepository) GetTasks(ctx context.Context, req param.GetTasksRequest) ([]entity.Task, int, error) {
 	return m.getTasksFunc(ctx)
 }
 

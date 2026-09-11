@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"graph/entity"
+	"graph/param"
 	"graph/service"
 	"net/http"
 	"net/http/httptest"
@@ -145,28 +146,13 @@ func TestHandler_GetTaskByID_ServiceError(t *testing.T) {
 	}
 }
 
-
 func TestHandler_GetTasks_Success(t *testing.T) {
 	mockRepo := &mockRepository{
-		getTasksFunc: func(
-			ctx context.Context,
-		) ([]entity.Task, error) {
+		getTasksFunc: func(ctx context.Context, req param.GetTasksRequest) ([]entity.Task, int, error) {
 			return []entity.Task{
-				{
-					ID:          1,
-					Title:       "Task 1",
-					Description: "First task",
-					Status:      entity.StatusTodo,
-					Assignee:    "Hossein",
-				},
-				{
-					ID:          2,
-					Title:       "Task 2",
-					Description: "Second task",
-					Status:      entity.StatusDone,
-					Assignee:    "Ali",
-				},
-			}, nil
+				{ID: 1, Title: "Task 1", Description: "First task", Status: entity.StatusTodo, Assignee: "Hossein"},
+				{ID: 2, Title: "Task 2", Description: "Second task", Status: entity.StatusDone, Assignee: "Ali"},
+			}, 2, nil
 		},
 	}
 
@@ -174,26 +160,15 @@ func TestHandler_GetTasks_Success(t *testing.T) {
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
-
 	router := gin.New()
 	router.GET("/tasks", handler.GetTasks)
 
-	req := httptest.NewRequest(
-		http.MethodGet,
-		"/tasks",
-		nil,
-	)
-
+	req := httptest.NewRequest(http.MethodGet, "/tasks?page=1&page_size=10", nil)
 	rec := httptest.NewRecorder()
-
 	router.ServeHTTP(rec, req)
 
 	if rec.Code != http.StatusOK {
-		t.Fatalf(
-			"expected status %d, got %d",
-			http.StatusOK,
-			rec.Code,
-		)
+		t.Fatalf("expected status %d, got %d", http.StatusOK, rec.Code)
 	}
 
 	body := rec.Body.String()
@@ -201,13 +176,11 @@ func TestHandler_GetTasks_Success(t *testing.T) {
 	if !strings.Contains(body, `"id":1`) {
 		t.Errorf("expected task 1 in response, got %s", body)
 	}
-
 	if !strings.Contains(body, `"id":2`) {
 		t.Errorf("expected task 2 in response, got %s", body)
 	}
-
-	if !strings.Contains(body, `"title":"Task 1"`) {
-		t.Errorf("expected Task 1 in response, got %s", body)
+	if !strings.Contains(body, `"total":2`) {
+		t.Errorf("expected total 2 in response, got %s", body)
 	}
 }
 
@@ -215,10 +188,8 @@ func TestHandler_GetTasks_ServiceError(t *testing.T) {
 	repositoryErr := errors.New("database error")
 
 	mockRepo := &mockRepository{
-		getTasksFunc: func(
-			ctx context.Context,
-		) ([]entity.Task, error) {
-			return nil, repositoryErr
+		getTasksFunc: func(ctx context.Context, req param.GetTasksRequest) ([]entity.Task, int, error) {
+			return nil, 0, repositoryErr
 		},
 	}
 
@@ -226,32 +197,18 @@ func TestHandler_GetTasks_ServiceError(t *testing.T) {
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
-
 	router := gin.New()
 	router.GET("/tasks", handler.GetTasks)
 
-	req := httptest.NewRequest(
-		http.MethodGet,
-		"/tasks",
-		nil,
-	)
-
+	req := httptest.NewRequest(http.MethodGet, "/tasks", nil)
 	rec := httptest.NewRecorder()
-
 	router.ServeHTTP(rec, req)
 
 	if rec.Code != http.StatusBadRequest {
-		t.Fatalf(
-			"expected status %d, got %d",
-			http.StatusBadRequest,
-			rec.Code,
-		)
+		t.Fatalf("expected status %d, got %d", http.StatusBadRequest, rec.Code)
 	}
 
 	if !strings.Contains(rec.Body.String(), "database error") {
-		t.Errorf(
-			"expected database error in response, got %s",
-			rec.Body.String(),
-		)
+		t.Errorf("expected database error in response, got %s", rec.Body.String())
 	}
 }

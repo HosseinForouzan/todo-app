@@ -135,14 +135,14 @@ func TestService_GetTasks(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			mockRepo := &mockRepository{
-				getTasksFunc: func(ctx context.Context) ([]entity.Task, error) {
-					return tt.repoTasks, tt.repoErr
+				getTasksFunc: func(ctx context.Context) ([]entity.Task, int, error) {
+					return tt.repoTasks, len(tt.repoTasks), tt.repoErr
 				},
 			}
 
 			svc := New(mockRepo, nil)
 
-			got, err := svc.GetTasks(context.Background())
+			got, err := svc.GetTasks(context.Background(), param.GetTasksRequest{Page: 1, PageSize: 10})
 
 			if (err != nil) != tt.wantErr {
 				t.Fatalf(
