@@ -135,7 +135,7 @@ Tested with [`hey`](https://github.com/rakyll/hey) at 50 concurrent connections:
 | Endpoint | Req/sec | p50 | p99 |
 |----------|---------|-----|-----|
 | `GET /task/` | 1,880 | 24ms | 77ms |
-| `GET /task/:id` | 2,424 | 18ms | 76ms |
+| `GET /task/:id` | 1448 | 18ms | 248ms |
 | `POST /task/` | 2,228 | 7ms | 46ms |
 | `GET /health-check` | 7,941 | 10ms | 52ms |
 
