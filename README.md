@@ -60,7 +60,7 @@ graph/
 ### Run with Docker Compose
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 The API will be available at `http://localhost:8080`.
@@ -70,7 +70,7 @@ The API will be available at `http://localhost:8080`.
 Start dependencies:
 
 ```bash
-docker-compose up postgres redis -d
+docker compose up postgres redis -d
 ```
 
 Run database migrations:
