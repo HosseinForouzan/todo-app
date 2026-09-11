@@ -1,0 +1,4 @@
+development:
+  dialect: postgres
+  datasource: postgres://myuser:secret@localhost:5431/task_db?sslmode=disable
+  dir: repository/psql/migrations
