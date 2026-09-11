@@ -62,3 +62,9 @@ func (m *MockCache) SetTask(ctx context.Context, task entity.Task) error {
 	m.tasks[task.ID] = task
 	return nil
 }
+
+func (m *MockCache) DeleteTask(ctx context.Context, id uint) error {
+	delete(m.tasks, id)
+	return nil
+}
+

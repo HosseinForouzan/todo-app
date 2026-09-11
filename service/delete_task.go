@@ -19,5 +19,10 @@ func (s Service) DeleteTask(ctx context.Context, req param.DeleteTaskRequest) er
 
 	metrics.TasksCount.Dec()
 
+	err = s.cache.DeleteTask(ctx, req.ID)
+	if err != nil {
+		fmt.Println("failed to invalidate cache:%w", err)
+	}
+
 	return nil
 }

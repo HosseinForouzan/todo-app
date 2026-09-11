@@ -46,17 +46,14 @@ func main() {
 		Password: "",
 		DB: 0,
 	})
-
-	fmt.Println(redsAdapter.Client().Ping(ctx))
-
-	taskSvc := service.New(psqltaskRepo, nil)
+	
+	
+	taskSvc := service.New(psqltaskRepo, redsAdapter)
 	
 
 	if resp, err := taskSvc.GetTasks(ctx); err == nil {
 		metrics.TasksCount.Set(float64(len(resp.Tasks)))
 	}
-
-	fmt.Println(taskSvc)
 
 	server := httpserver.New(taskSvc)
 

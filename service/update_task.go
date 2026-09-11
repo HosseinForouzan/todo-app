@@ -21,8 +21,10 @@ func (s Service) UpdateTask(ctx context.Context, req param.UpdateTaskRequest)(pa
 		return param.UpdateTaskResponse{}, fmt.Errorf("unexpected error: %w", err)
 	}
 
-
-
+	err = s.cache.DeleteTask(ctx, req.ID)
+	if err != nil {
+		fmt.Println("failed to invlidate cache: %w", err.Error())
+	}
 
 	return param.UpdateTaskResponse{
 		ID: updatedTask.ID,
