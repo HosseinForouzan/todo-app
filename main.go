@@ -7,6 +7,7 @@ import (
 	"graph/metrics"
 	"graph/repository/psql"
 	"graph/repository/psql/psqltask"
+	"graph/repository/redis/redistask"
 	"graph/service"
 
 	_ "graph/docs"
@@ -39,7 +40,17 @@ func main() {
 	}
 	psqltaskRepo := psqltask.New(psqlRepo)
 
+	redsAdapter := redistask.New(redistask.Config{
+		Host: "localhost",
+		Port: 6380,
+		Password: "",
+		DB: 0,
+	})
+
+	fmt.Println(redsAdapter.Client().Ping(ctx))
+
 	taskSvc := service.New(psqltaskRepo)
+	
 
 	if resp, err := taskSvc.GetTasks(ctx); err == nil {
 		metrics.TasksCount.Set(float64(len(resp.Tasks)))
