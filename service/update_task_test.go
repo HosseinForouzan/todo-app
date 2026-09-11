@@ -65,7 +65,7 @@ func TestService_UpdateTask_Success(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	svc := New(mockRepo, nil)
 
 	got, err := svc.UpdateTask(context.Background(), req)
 
@@ -122,7 +122,7 @@ func TestService_UpdateTask_RepositoryError(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	svc := New(mockRepo, nil)
 
 	req := param.UpdateTaskRequest{
 		ID:          10,

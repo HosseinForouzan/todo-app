@@ -33,7 +33,7 @@ func TestHandler_DeleteTask_Success(t *testing.T) {
 		},
 	}
 
-	svc := service.New(mockRepo)
+	svc := service.New(mockRepo, nil)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -70,7 +70,7 @@ func TestHandler_DeleteTask_Success(t *testing.T) {
 func TestHandler_DeleteTask_InvalidID(t *testing.T) {
 	mockRepo := &mockRepository{}
 
-	svc := service.New(mockRepo)
+	svc := service.New(mockRepo, nil)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -115,7 +115,7 @@ func TestHandler_DeleteTask_ServiceError(t *testing.T) {
 		},
 	}
 
-	svc := service.New(mockRepo)
+	svc := service.New(mockRepo, nil)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)

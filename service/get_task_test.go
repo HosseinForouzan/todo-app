@@ -22,8 +22,15 @@ func TestService_GetTaskByID_Success(t *testing.T) {
 			return expectedTask, nil
 		},
 	}
+	ctx := context.Background()
 
-	svc := New(mockRepo)
+	cache := NewMockCache()
+
+	err := cache.SetTask(ctx, expectedTask)
+	if err != nil {
+		t.Fatal(err)
+	}
+	svc := New(mockRepo, cache)
 	req := param.GetTaskRequest{ID: 10}
 
 	got, err := svc.GetTaskByID(context.Background(), req)
@@ -58,10 +65,18 @@ func TestService_GetTaskByID_RepositoryError(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	cache := NewMockCache()
+	ctx := context.Background()
+
+	err := cache.SetTask(ctx, entity.Task{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	svc := New(mockRepo, cache)
 	req := param.GetTaskRequest{ID: 10}
 
-	_, err := svc.GetTaskByID(context.Background(), req)
+	_, err = svc.GetTaskByID(context.Background(), req)
 
 	if err == nil {
 		t.Fatal("expected error, got nil")
@@ -71,7 +86,6 @@ func TestService_GetTaskByID_RepositoryError(t *testing.T) {
 		t.Errorf("expected repository error, got %v", err)
 	}
 }
-
 
 func TestService_GetTasks(t *testing.T) {
 	repositoryErr := errors.New("database error")
@@ -126,7 +140,7 @@ func TestService_GetTasks(t *testing.T) {
 				},
 			}
 
-			svc := New(mockRepo)
+			svc := New(mockRepo, nil)
 
 			got, err := svc.GetTasks(context.Background())
 

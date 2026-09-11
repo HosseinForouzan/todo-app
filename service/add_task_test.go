@@ -21,7 +21,7 @@ func TestService_AddTask_Success(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	svc := New(mockRepo, nil)
 
 	req := param.AddTaskRequest{
 		Title:       "Graph Task",
@@ -53,7 +53,7 @@ func TestService_AddTask_RepositoryError(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	svc := New(mockRepo, nil)
 
 	req := param.AddTaskRequest{
 		Title:       "Graph Task",

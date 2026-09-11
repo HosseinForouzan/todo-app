@@ -25,7 +25,7 @@ func TestHandler_AddTask_Success(t *testing.T) {
 		},
 	}
 
-	svc := service.New(mockRepo)
+	svc := service.New(mockRepo, nil)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -77,7 +77,7 @@ func TestHandler_AddTask_Success(t *testing.T) {
 func TestHandler_AddTask_InvalidJSON(t *testing.T) {
 	mockRepo := &mockRepository{}
 
-	svc := service.New(mockRepo)
+	svc := service.New(mockRepo, nil)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)
@@ -120,7 +120,7 @@ func TestHandler_AddTask_ServiceError(t *testing.T) {
 		},
 	}
 
-	svc := service.New(mockRepo)
+	svc := service.New(mockRepo, nil)
 	handler := New(svc)
 
 	gin.SetMode(gin.TestMode)

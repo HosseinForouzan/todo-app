@@ -20,7 +20,7 @@ func TestService_DeleteTask_TaskNotFound(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	svc := New(mockRepo, nil)
 	req := param.DeleteTaskRequest{ID: 10}
 
 	err := svc.DeleteTask(context.Background(), req)
@@ -47,7 +47,7 @@ func TestService_DeleteTask_Success(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	svc := New(mockRepo, nil)
 	req := param.DeleteTaskRequest{ID: 10}
 
 	err := svc.DeleteTask(context.Background(), req)
@@ -73,7 +73,7 @@ func TestService_DeleteTask_RepositoryError(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	svc := New(mockRepo, nil)
 	req := param.DeleteTaskRequest{ID: 10}
 
 	err := svc.DeleteTask(context.Background(), req)
@@ -103,7 +103,7 @@ func TestService_DeleteTask_ExistenceCheckError(t *testing.T) {
 		},
 	}
 
-	svc := New(mockRepo)
+	svc := New(mockRepo, nil)
 	req := param.DeleteTaskRequest{ID: 10}
 
 	err := svc.DeleteTask(context.Background(), req)

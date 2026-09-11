@@ -17,7 +17,7 @@ type Repository interface {
 type Cache interface {
     GetTask(ctx context.Context, id uint) (entity.Task, error)
     SetTask(ctx context.Context, task entity.Task) error
-    DeleteTask(ctx context.Context, id uint) error
+    // DeleteTask(ctx context.Context, id uint) error
 }
 
 type Service struct {
@@ -25,6 +25,6 @@ type Service struct {
 	cache Cache
 }
 
-func New(repo Repository) Service {
-	return Service{repo: repo}
+func New(repo Repository, cache Cache) Service {
+	return Service{repo: repo, cache: cache}
 }

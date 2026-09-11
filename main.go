@@ -49,7 +49,7 @@ func main() {
 
 	fmt.Println(redsAdapter.Client().Ping(ctx))
 
-	taskSvc := service.New(psqltaskRepo)
+	taskSvc := service.New(psqltaskRepo, nil)
 	
 
 	if resp, err := taskSvc.GetTasks(ctx); err == nil {
